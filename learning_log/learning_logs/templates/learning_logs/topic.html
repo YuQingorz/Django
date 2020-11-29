@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+{% extends "learning_logs/base.html" %}
+
+{% block page_header %}
+    <h1 class="text-info"><a href="{% url 'learning_logs:topics' %}"
+            style="text-decoration:none" class="text-success">&laquo; </a>{{ topic }}</h1>
+{% endblock page_header %}
+
+{% block content %}
+    <h3><a href="{% url 'learning_logs:new_entry' topic.id %}"
+            class="btn btn-outline-info mb-2" role="button">添加笔记</a></h3>
+
+    <ul>
+    {% for entry in entries %}
+    <div class="card mb-3">
+        <h4 class="card-header">
+            {{ entry.date_added|date:'发布时间：n月d日, Y年 H:i l' }}
+            <small><a href="{% url 'learning_logs:edit_entry' entry.id %}"
+                    class="btn btn-outline-danger" style="">编辑笔记✒</a></small>
+        </h4>
+        <div class="card-body">
+            {{ entry.text|linebreaks }}
+        </div>
+    </div>
+    {% empty %}
+        <div class="alert alert-warning alert-dismissable fade show">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <strong>这个主题还没有笔记</strong>
+        </div>
+    {% endfor %}
+    </ul>
+{% endblock content %}
+
+</body>
+</html>

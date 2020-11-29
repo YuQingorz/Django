@@ -1,0 +1,74 @@
+{% load bootstrap4 %}
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1,
+        shrink-to-fit=no">
+    <title>学习笔记</title>
+
+    {% bootstrap_css %}
+    {% bootstrap_javascript jquery='full' %}
+</head>
+<body>
+    <nav class="navbar navbar-expand-md navbar-light bg-light mb-4 border">
+    	<a class="navbar-brand" href="{% url 'learning_logs:index' %}">学习笔记</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarCollapse" aria-controls="navbarCollapse"
+            aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    	<div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'learning_logs:topics' %}">
+                        主题</a></li>
+            </ul>
+            <ul class="navbar-nav ml-auto">
+                {% if user.is_authenticated %}
+                <li class="nav-item">
+                    <span class="navbar-text">欢迎，<strong>{{ user.username }}</strong>！</span>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'users:logout' %}">注销</a>
+                </li>
+                {% else  %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'users:register' %}">注册</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'users:login' %}">点击登录</a>
+                </li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+
+    <main role="main" class="container">
+        <div class="pb-2 mb-2 border-bottom">
+            {% block page_header %}
+            <div class="jumbotron" style="background-color:rgba(255, 192, 203, 0.8)">
+                <h1 class="display-3">🐖追踪你的学习。</h1>
+
+                <p class="lead">
+                    制作自己的学习日志，并保留你正在学习的主题。每当你学到关于一个主题的新东西，输入一个总结你所学知识的笔记。
+                </p>
+                <blockquote class="blockquote text-right">
+                    <p class="mb-0">吾生也有涯，而知也无涯。</p>
+                    <footer class="blockquote-footer"><cite title="Source Title">庄子</cite></footer>
+                </blockquote>
+                {% if not user.is_authenticated %}
+                <a class="btn btn-lg brn-primary text-success" href="{% url 'users:register' %}"
+                    role="button">现在注册 &raquo;</a>
+                {% endif %}
+            </div>
+            {% endblock page_header %}
+        </div>
+        <div>
+            {% block content %}{% endblock content %}
+        </div>
+    </main>
+</body>
+</html>
+<!-- 修改一下下下-->
